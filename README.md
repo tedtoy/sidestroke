@@ -1,4 +1,4 @@
 sidestroke
 ==========
 
-A javascript data pipeline for websites with a high data consumption rate.
+A javascript data pipeline for websites that experience a high rate of data consumption.
