@@ -16,15 +16,28 @@
      *
      **/
     function PipelineDirector(){ 
+
+        // Custom commands 
         this.commands = {},
+
+        // A hash of pipenames to pipe objects (backbone collections)
         this.pipes = {},
-        this.pipeConnections = [],                  
+
+        // An array of pipenames as strings
+        this.pipeConnections = [],           
+
+        // Child PipelineDirectors
+        this.childPipelines = [],
+
+        // Add pipes to connections:
         this.connectPipes = function(pipeNames){
             var that = this;
             _.each(pipeNames, function(pipeName){
                 that.pipeConnections.push(pipeName);
             }); 
         },
+
+        // Move data down or up pipe connections:
         this.flow = function(reverse) {
             reverse = typeof reverse !== 'undefined' ? reverse : false;
             var that = this;
@@ -54,9 +67,9 @@
                     if (typeof removeConditions !== 'undefined' ){
                         _.each(removeConditions, function(c){
                             if( c.removeLocation === removeLocation 
-                                && targetPipe[c.removeIf] === false   ) {
-                                    removePermission = false;
-                                    return
+                                                  && targetPipe[c.removeIf] === false ) {
+                                removePermission = false;
+                                return;
                             }
                         });
                     }
@@ -80,7 +93,7 @@
                         var wasFeedRemoved = false;
                     }
                 }
-                // + Add
+                // Add
                 if (addFeed){
                     var result = that.addFeed(addFeed, pipeName + ":" + addLocation);
                     if (result) {
@@ -94,16 +107,24 @@
                 } else {
                     addFeed = null;
                 }
-                that.debugPipes();
-            }); //each
+            }); // each connections
+
+            // Flow children,  if any:
+            if (this.childPipelines.length > 0){
+                _.each(this.childPipelines, function(childPipe){
+                    childPipe.flow(reverse);
+                });
+            }
+
         },
         this.flowUp = function() {
             this.flow(true); 
         },
         this.flowDown = function(){
-            this.flow();
+            this.flow(); 
         },
         this.runCommand = function execute(commandName, reverse){
+            // * refactor me *
             reverse = typeof reverse !== 'undefined' ? reverse : false;
             var that = this;
             var totalDelay = 0;
@@ -121,8 +142,8 @@
             }
 
             function run(){
+                // todo: Refactor this. Its way too long.
                 var added = false;
-                that.debugPipes();
                 i += 1;
                 var allUntilsMet = 1;
                 if (i > 200){
@@ -130,7 +151,7 @@
                     return;
                 }
                 if (reverse) {
-                    // no op
+                    // todo: be able to reverse a command.
                 }
                 _.each(commandList, function(command){
                     var moveType = command.type;
@@ -307,7 +328,7 @@
         this.printPipes = function(){
             var that = this;
             _.each(this.pipes, function(pipe){
-                // comment console.log(pipe);
+                console.log(pipe);
             });
         },
         this.addPipes = function(collections) {
@@ -316,21 +337,54 @@
                 that.pipes[c.name] = c.collection;
             })
         },
-        this.pipeFetch = function(pipeName, renderView){
+        this.populateChildDirectors = function(sourcePipe, targetChildPipeName){
+            // Hard code source and target pipes to be the 0th index for now
+            // Send data to child pipes until they are full
+            var sourcepipename = this.pipeConnections[0];
+            var sourcePipe = this.pipes[sourcepipename];
+            var childrenNotFull = true;
+            var sourceHasData = true;
+            // Two ways I could do this.
+            // A.)  Loop through children and pull
+            //      from source as needed.
+            // B.)  Loop through source data and push
+            //      to children. 
+            // [A] implementation:
+            while (childrenNotFull && sourceHasData){
+                var unfullCount = 0;
+                _.each(this.childPipelines, function(childPipeline){
+                    var targetPipeName = childPipeline.pipeConnections[0];
+                    var targetPipe = childPipeline.pipes[targetPipeName];
+                    if ( !targetPipe.isFull ){ 
+                        // increment
+                        unfullcount+=1;
+                        if (sourcePipe.length > 0){ 
+                            // Add from bottom of source to top of child:
+                            var s = sourcePipe.shift();
+                            targetPipe.push(s);
+                        } else {
+                            sourceHasData = false;
+                        }
+                    }
+                });
+                if (unfullCount === 0){
+                    childrenNotFull = false;
+                }
+            } 
+        },
+        this.pipeFetch = function(pipeName, callback){
             pipe = this.pipes[pipeName];
             pipe.fetch({
                 success: function(collection, response, options){
-                    renderView(collection, response, options);
+                    callback(collection, response, options);
                 }
             });
         },
         this.onScroll = function(){
             var st = $(window).scrollTop();
             if (st > lastScrollTop) {
-                // comment console.log("-------------- scrolled down --------------");
                 that.onScrollDown();
             } else if(st < lastScrollTop) { 
-                // comment console.log("--------------- scrolled up ---------------");
                 that.onScrollUp();
             } 
             lastScrollTop = st;
