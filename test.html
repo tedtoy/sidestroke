@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>testing</title>
+<script src="lib/jquery1.10.2.min.js" type="text/javascript"></script>
+<script src="lib/underscore-min.js" type="text/javascript"></script>
+<script src="sidestroke.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var x = $("#testbox");
+        $(x).css('background-color','#999');
+        console.log(SS); 
+
+        pipeSource = new SS.PipelineDirector();
+        console.log(pipeSource);
+        
+    });
+
+</script>
+<body>
+    hello this is a test
+
+
+    <div id="testbox" style="height: 200px; width:200px; border:1px solid #ccc; padding: 20px;">
+        test box
+    </div>
+</body>
+</html>

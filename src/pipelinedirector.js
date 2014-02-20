@@ -1,22 +1,31 @@
 
 
-    /*
-     * Pipeline methods:
-     * --------------------------------------------------------------------------
-     * add: 
-     *      Adds the current 'feed' to a location on the supplied collection
-     * remove: 
-     *      Removes a feed from location indicated, from the collection indicated
-     * pick: 
-     *      Like 'remove' but copies the item rather than removing it
-     * select: 
-     *      Like pick but copies an array of items
-     * fill: 
-     *      Like add but adds an array of items to a collection
-     *
-     **/
-    function PipelineDirector(){ 
+/*
+ * Pipeline methods:
+ * ---------------------------------------------------------------------
+ * add: 
+ *      Adds the current 'feed' to a location on the supplied collection
+ * remove: 
+ *      Removes a feed from indicated collection/location
+ * pick: 
+ *      Like 'remove' but copies the item rather than removing it
+ * select: 
+ *      Like pick but copies an array of items
+ * fill: 
+ *      Like add but adds an array of items to a collection
+ * flow: 
+ *      Moves a datum up or down the chain of pipes
+ * runCommand:
+ *      Runs a custom user-defined set of flow commands
+ *      eg: (todo)
+ * --------------------------------------------------------------------
+ * Important Pipeline Properties: (todo)
+ *
+ **/
+ var SS = (function(SS,$,_){ 
+     
 
+     SS.PipelineDirector = function(){
         // Custom commands 
         this.commands = {},
 
@@ -413,4 +422,7 @@
         }
     }
 
-        
+    return SS;
+}(SS || {}, jQuery, _ ));
+
+    
