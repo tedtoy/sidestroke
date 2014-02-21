@@ -4,14 +4,31 @@
 <title>testing</title>
 <script src="lib/jquery1.10.2.min.js" type="text/javascript"></script>
 <script src="lib/underscore-min.js" type="text/javascript"></script>
-<script src="sidestroke.js" type="text/javascript"></script>
+<script src="src/pipeline.js" type="text/javascript"></script>
+<script src="src/actors.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        // extend models from abstract backbone classes:
+        // ...
+        // ...
+        // ...
+
+
+
         var x = $("#testbox");
         $(x).css('background-color','#999');
         console.log(SS); 
 
         pipeSource = new SS.PipelineDirector();
+        pipeA = new SS.PipelineDirector();
+        pipeB = new SS.PipelineDirector();
+
+
+        sourcepipe = new Pipe();
+        pipeSource.autoFetchAt = 100;
+        
+        
         console.log(pipeSource);
         
     });

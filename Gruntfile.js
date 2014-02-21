@@ -15,7 +15,8 @@ module.exports = function(grunt) {
               'lib/backbone-min.js',  
               'lib/easings.js',  
               'src/inputhandler.js',  
-              'src/pipelinedirector.js',  
+              'src/pipeline.js',  
+              'src/actors.js',  
         dest: 'dist/sidestroke.js'
       }
     },
