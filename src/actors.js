@@ -85,7 +85,7 @@ var ActorBaseView = Backbone.Model.extend({
 
 
 var Pipe = Backbone.Collection.extend({
-    model: Tweet,
+    model: undefined,
     url: '',
     isFull: false,
     initialize: function(m){
