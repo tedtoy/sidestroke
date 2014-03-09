@@ -16,7 +16,8 @@ module.exports = function(grunt) {
               'lib/easings.js',  
               'src/inputhandler.js',  
               'src/pipeline.js',  
-              'src/actors.js',  
+              'src/actors.js'
+            ],
         dest: 'dist/sidestroke.js'
       }
     },
