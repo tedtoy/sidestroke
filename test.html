@@ -1,9 +1,10 @@
 <!doctype html>
 <html>
 <meta charset="utf-8">
-<title>testing</title>
+<title>A simple example with one director</title>
 <script src="lib/jquery1.10.2.min.js" type="text/javascript"></script>
 <script src="lib/underscore-min.js" type="text/javascript"></script>
+<script src="lib/backbone-min.js" type="text/javascript"></script>
 <script src="src/pipeline.js" type="text/javascript"></script>
 <script src="src/actors.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -13,7 +14,6 @@
         // ...
         // ...
         // ...
-        var 
 
 
 
@@ -21,23 +21,21 @@
         $(x).css('background-color','#999');
         console.log(SS); 
 
-        pipeSource = new SS.PipelineDirector();
-        pipeA = new SS.PipelineDirector();
-        pipeB = new SS.PipelineDirector();
+        var Pipeline = new SS.PipelineDirector();
 
 
-        sourcepipe = new Pipe();
-        pipeSource.autoFetchAt = 100;
+        var sourcePipe = new Pipe();
+        sourcePipe.autoFetchAt = 100;
         
         
-        console.log(pipeSource);
+        console.log(sourcePipe);
         
     });
 
 </script>
 <body>
-    hello this is a test
 
+    Demonstrating a simple pipeline
 
     <div id="testbox" style="height: 200px; width:200px; border:1px solid #ccc; padding: 20px;">
         test box

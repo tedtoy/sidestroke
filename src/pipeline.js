@@ -135,15 +135,16 @@
         this.runCommand = function execute(commandName, reverse){
             // * refactor me *
             reverse = typeof reverse !== 'undefined' ? reverse : false;
-            var that = this;
-            var totalDelay = 0;
-            var i = 0;
-            var feed = null;
-            var feeds = null;
-            var commands = this.commands[commandName];
-            var targets = null;
-            var targetPipeName = null;
-            var pipeLocation = null;
+            var
+                that = this,
+                totalDelay = 0,
+                i = 0,
+                feed = null,
+                feeds = null,
+                commands = this.commands[commandName],
+                targets = null,
+                targetPipeName = null,
+                pipeLocation = null;
             if (reverse){
                 var commandList = this.getReverseCommands(commandName);
             } else {
@@ -349,10 +350,11 @@
         this.populateChildDirectors = function(sourcePipe, targetChildPipeName){
             // Hard code source and target pipes to be the 0th index for now
             // Send data to child pipes until they are full
-            var sourcepipename = this.pipeConnections[0];
-            var sourcePipe = this.pipes[sourcepipename];
-            var childrenNotFull = true;
-            var sourceHasData = true;
+            var 
+                sourcepipename = this.pipeConnections[0]
+            ,   sourcePipe = this.pipes[sourcepipename]
+            ,   childrenNotFull = true
+            ,   sourceHasData = true;
             // Two ways I could do this.
             // A.)  Loop through children and pull
             //      from source as needed.
